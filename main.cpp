@@ -1,5 +1,8 @@
-#include <iostream>
 // http://math.hws.edu/eck/cs225/s03/binary_trees/
+//https://en.wikipedia.org/wiki/Tree_traversal
+
+#include <iostream>
+
 template <typename T>
 struct TreeNode {
     T item;
@@ -78,8 +81,8 @@ int countNodes(TreeNode<T> *root) {
  * The way preorderPrint will then work is as follows:
  * Print root: 5
  * preorderPrint(root->left)
- * Print 2, then 0, then 12. These are all the leftmost elements
- * because of our recursive definition.
+ * Print 2, then 0, then 12. These are all the leftmost elements and will be accessed first
+ * because of our recursive implementation.
  * Print 9 because the function then starts printing the right elements
  * (preorderPrint(root->right)).
  *
