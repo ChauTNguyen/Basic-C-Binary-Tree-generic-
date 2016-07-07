@@ -15,6 +15,24 @@ struct TreeNode {
 
     TreeNode(T newItem)
             : item(newItem), left(nullptr), right(nullptr) { }
+
+    bool hasLeft() {
+        if (left != nullptr) return true;
+        else return false;
+    }
+
+    bool hasRight() {
+        if (right != nullptr) return true;
+        else return false;
+    }
+
+    void setLeft(TreeNode<T> *o) {
+        left = o;
+    }
+
+    void setRight(TreeNode<T> *o) {
+        right = o;
+    }
 };
 
 template<typename T>
@@ -34,6 +52,9 @@ void levelOrderPrint(TreeNode<T> *root);
 
 template<typename T>
 bool binaryTreeSearch(TreeNode<T> *root, T key);
+
+template<typename T>
+void insert(TreeNode<T> *root, T value);
 
 int main() {
     // preorderPrint
@@ -68,7 +89,8 @@ int main() {
             new TreeNode<int>(2, new TreeNode<int>(1, nullptr, nullptr), new TreeNode<int>(3, nullptr, nullptr)),
             new TreeNode<int>(6,
                               new TreeNode<int>(5, nullptr, nullptr),
-                              new TreeNode<int>(9, new TreeNode<int>(7, nullptr, nullptr), new TreeNode<int>(10, nullptr, nullptr)))
+                              new TreeNode<int>(9, new TreeNode<int>(7, nullptr, nullptr),
+                                                new TreeNode<int>(10, nullptr, nullptr)))
     );
 
     inorderPrint(binaryTreeRoot);
@@ -92,10 +114,22 @@ int main() {
     std::cout << std::endl;
     inorderPrint(binaryTreeRootString);
     std::cout << std::endl;
-    std::cout << "Find Ace; Expect True: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Ace") << std::endl;
-    std::cout << "Find Bob; Expect True: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Bob") << std::endl;
-    std::cout << "Find Jessica; Expect False: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Jessica") << std::endl;
+    std::cout << "Find Ace; Expect True: " << std::boolalpha <<
+    binaryTreeSearch<std::string>(binaryTreeRootString, "Ace") << std::endl;
+    std::cout << "Find Bob; Expect True: " << std::boolalpha <<
+    binaryTreeSearch<std::string>(binaryTreeRootString, "Bob") << std::endl;
+    std::cout << "Find Jessica; Expect False: " << std::boolalpha <<
+    binaryTreeSearch<std::string>(binaryTreeRootString, "Jessica") << std::endl;
 
+    std::cout << std::endl;
+    insert<std::string>(binaryTreeRootString, "Jenkins");
+    inorderPrint(binaryTreeRootString);
+    std::cout << std::endl;
+    insert<std::string>(binaryTreeRootString, "Azer");
+    inorderPrint(binaryTreeRootString);
+    std::cout << std::endl;
+    insert<std::string>(binaryTreeRootString, "Jacobs");
+    inorderPrint(binaryTreeRootString);
     return 0;
 }
 
@@ -230,3 +264,22 @@ bool binaryTreeSearch(TreeNode<T> *root, T key) {
 
     return false;
 }
+
+template<typename T>
+void insert(TreeNode<T> *root, T value) {
+    TreeNode<T> *curr = root;
+
+    if (binaryTreeSearch(root, value)) {
+        std::cout << "Duplicate value." << std::endl;
+    } else {
+        while ((value < curr->item && curr->hasLeft()) ||
+                (value > curr->item && curr->hasRight())) {
+            if (value < curr->item) curr = curr->left;
+            else curr = curr->right;
+        }
+    }
+
+    if (value > curr->item) curr->setRight(new TreeNode<T>(value));
+    else curr->setLeft(new TreeNode<T>(value));
+}
+
