@@ -12,6 +12,9 @@ struct TreeNode {
 
     TreeNode(T newItem, TreeNode *newLeft, TreeNode *newRight)
             : item(newItem), left(newLeft), right(newRight) { }
+
+    TreeNode(T newItem)
+            : item(newItem), left(nullptr), right(nullptr) { }
 };
 
 template<typename T>
@@ -63,21 +66,35 @@ int main() {
     TreeNode<int> *binaryTreeRoot = new TreeNode<int>(
             4,
             new TreeNode<int>(2, new TreeNode<int>(1, nullptr, nullptr), new TreeNode<int>(3, nullptr, nullptr)),
-            new TreeNode<int>(6, new TreeNode<int>(5, nullptr, nullptr), new TreeNode<int>(9, new TreeNode<int>(7, nullptr, nullptr), new TreeNode<int>(10, nullptr, nullptr)))
+            new TreeNode<int>(6,
+                              new TreeNode<int>(5, nullptr, nullptr),
+                              new TreeNode<int>(9, new TreeNode<int>(7, nullptr, nullptr), new TreeNode<int>(10, nullptr, nullptr)))
     );
 
     inorderPrint(binaryTreeRoot);
     std::cout << std::endl;
-    std::cout << "Find 1; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 1) << std::endl;
-    std::cout << "Find 2; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 2) << std::endl;
-    std::cout << "Find 4; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 4) << std::endl;
-    std::cout << "Find 5; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 5) << std::endl;
-    std::cout << "Find 7; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 7) << std::endl;
-    std::cout << "Find 9; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 9) << std::endl;
-    std::cout << "Find 10; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 10) << std::endl;
-    std::cout << "Find 12; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 12) << std::endl;
-    std::cout << "Find 13; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 13) << std::endl;
+    std::cout << "Find 1; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 1) << std::endl;
+    std::cout << "Find 2; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 2) << std::endl;
+    std::cout << "Find 4; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 4) << std::endl;
+    std::cout << "Find 5; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 5) << std::endl;
+    std::cout << "Find 7; Expect False: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 7) << std::endl;
+    std::cout << "Find 9; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 9) << std::endl;
+    std::cout << "Find 10; Expect True: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 10) << std::endl;
+    std::cout << "Find 12; Expect False: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 12) << std::endl;
+    std::cout << "Find 13; Expect False: " << std::boolalpha << binaryTreeSearch<int>(binaryTreeRoot, 13) << std::endl;
 
+    TreeNode<std::string> *binaryTreeRootString = new TreeNode<std::string>(
+            "Dan",
+            new TreeNode<std::string>("Bob", new TreeNode<std::string>("Ace"), new TreeNode<std::string>("Carla")),
+            new TreeNode<std::string>("Farah", new TreeNode<std::string>("Emily"), new TreeNode<std::string>("Garlik"))
+    );
+
+    std::cout << std::endl;
+    inorderPrint(binaryTreeRootString);
+    std::cout << std::endl;
+    std::cout << "Find Ace; Expect True: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Ace") << std::endl;
+    std::cout << "Find Bob; Expect True: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Bob") << std::endl;
+    std::cout << "Find Jessica; Expect False: " << std::boolalpha << binaryTreeSearch<std::string>(binaryTreeRootString, "Jessica") << std::endl;
 
     return 0;
 }
