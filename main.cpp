@@ -2,27 +2,32 @@
 //https://en.wikipedia.org/wiki/Tree_traversal
 
 #include <iostream>
+#include <queue>
 
-template <typename T>
+template<typename T>
 struct TreeNode {
     T item;
     TreeNode *left;
     TreeNode *right;
+
     TreeNode(T newItem, TreeNode *newLeft, TreeNode *newRight)
-            : item(newItem), left(newLeft), right(newRight) {}
+            : item(newItem), left(newLeft), right(newRight) { }
 };
 
-template <typename T>
+template<typename T>
 int countNodes(TreeNode<T> *root);
 
-template <typename T>
+template<typename T>
 void preorderPrint(TreeNode<T> *root);
 
-template <typename T>
+template<typename T>
 void postorderPrint(TreeNode<T> *root);
 
-template <typename T>
+template<typename T>
 void inorderPrint(TreeNode<T> *root);
+
+template<typename T>
+void levelOrderPrint(TreeNode<T> *root);
 
 int main() {
     // preorderPrint
@@ -47,12 +52,14 @@ int main() {
     postorderPrint(n1);
     std::cout << std::endl;
     inorderPrint(n1);
-
+    std::cout << std::endl;
+    levelOrderPrint(n1);
+    std::cout << std::endl;
 
     return 0;
 }
 
-template <typename T>
+template<typename T>
 int countNodes(TreeNode<T> *root) {
     if (root == nullptr) {
         return 0;
@@ -90,7 +97,7 @@ int countNodes(TreeNode<T> *root) {
  * preorderPrint(root->right) will execute and print
  * 3 4 5.
  */
-template <typename T>
+template<typename T>
 void preorderPrint(TreeNode<T> *root) {
     if (root != nullptr) {
         std::cout << root->item << " ";
@@ -121,7 +128,7 @@ void preorderPrint(TreeNode<T> *root) {
  *
  * Eventually we print the root element's data and we're done.
  */
-template <typename T>
+template<typename T>
 void postorderPrint(TreeNode<T> *root) {
     if (root != nullptr) {
         postorderPrint(root->left);
@@ -145,11 +152,28 @@ void postorderPrint(TreeNode<T> *root) {
  * After the left tree is processed, we print the root element's data, access the right tree,
  * and repeat.
  */
-template <typename T>
+template<typename T>
 void inorderPrint(TreeNode<T> *root) {
     if (root != nullptr) {
         inorderPrint(root->left);
         std::cout << root->item << " ";
         inorderPrint(root->right);
+    }
+}
+
+// bft
+template<typename T>
+void levelOrderPrint(TreeNode<T> *root) {
+    std::queue<TreeNode<T> *> q;
+    q.push(root);
+
+    while (!q.empty()) {
+        TreeNode<T> *curr = q.front();
+        q.pop();
+        if (curr != nullptr) {
+            std::cout << curr->item << " ";
+            q.push(curr->left);
+            q.push(curr->right);
+        }
     }
 }
