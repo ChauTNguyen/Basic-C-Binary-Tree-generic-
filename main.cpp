@@ -29,6 +29,9 @@ void inorderPrint(TreeNode<T> *root);
 template<typename T>
 void levelOrderPrint(TreeNode<T> *root);
 
+template<typename T>
+bool binaryTreeSearch(TreeNode<T> *root, T key);
+
 int main() {
     // preorderPrint
     TreeNode<int> *n1 = new TreeNode<int>(5, nullptr, nullptr);
@@ -55,6 +58,26 @@ int main() {
     std::cout << std::endl;
     levelOrderPrint(n1);
     std::cout << std::endl;
+
+    // Inorder traversal should print this properly...
+    TreeNode<int> *binaryTreeRoot = new TreeNode<int>(
+            4,
+            new TreeNode<int>(2, new TreeNode<int>(1, nullptr, nullptr), new TreeNode<int>(3, nullptr, nullptr)),
+            new TreeNode<int>(6, new TreeNode<int>(5, nullptr, nullptr), new TreeNode<int>(9, new TreeNode<int>(7, nullptr, nullptr), new TreeNode<int>(10, nullptr, nullptr)))
+    );
+
+    inorderPrint(binaryTreeRoot);
+    std::cout << std::endl;
+    std::cout << "Find 1; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 1) << std::endl;
+    std::cout << "Find 2; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 2) << std::endl;
+    std::cout << "Find 4; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 4) << std::endl;
+    std::cout << "Find 5; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 5) << std::endl;
+    std::cout << "Find 7; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 7) << std::endl;
+    std::cout << "Find 9; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 9) << std::endl;
+    std::cout << "Find 10; Expect True: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 10) << std::endl;
+    std::cout << "Find 12; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 12) << std::endl;
+    std::cout << "Find 13; Expect False: " << std::boolalpha << binaryTreeSearch(binaryTreeRoot, 13) << std::endl;
+
 
     return 0;
 }
@@ -176,4 +199,17 @@ void levelOrderPrint(TreeNode<T> *root) {
             q.push(curr->right);
         }
     }
+}
+
+template<typename T>
+bool binaryTreeSearch(TreeNode<T> *root, T key) {
+    TreeNode<T> *curr = root;
+
+    while (curr != nullptr) {
+        if (curr->item == key) return true;
+        else if (key < curr->item) curr = curr->left;
+        else curr = curr->right;
+    }
+
+    return false;
 }
